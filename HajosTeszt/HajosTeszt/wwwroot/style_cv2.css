@@ -1,0 +1,168 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    border: dashed 10px green;
+    border-radius: 20px 20px;
+    text-align: center;
+    /*width: 80%;*/
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 110%;
+}
+
+h1 {
+    letter-spacing: 5px;
+}
+
+h2 {
+    color: darkorange;
+}
+
+td {
+    width: 50%;
+    height: 50%;
+}
+
+span {
+    color: red;
+}
+
+.pir {
+    color: red;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+.tart {
+    /*width: 100%;*/
+/*    margin-left: auto;
+    margin-right: auto;*/
+    display: flex;
+    flex-direction: column;
+    text-align:center;
+}
+
+#kep {
+    /*width: 100%;*/
+    margin-left: auto;
+    margin-right: auto;
+    paddig: 2px;
+    
+}
+
+img {
+    width: 70%;
+}
+
+.hiv:hover {
+    color: green;
+}
+
+dd {
+    margin: 0px 20px;
+}
+
+#magam {
+    padding: 0px 50px;
+}
+
+#magam,
+#tapasz {
+    margin: 20px 50px;
+    border-bottom: dashed 5px darkorange;
+    border-top: dashed 5px darkorange;
+}
+#kepz {
+    margin: 20px 50px;
+    border-top: dashed 5px darkorange;
+}
+
+@media screen and (min-width: 800px) {
+    .tart {
+        display: flex;
+        text-align: center;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-bottom: 30px;
+    }
+
+    #kep {
+        /*float: right;*/
+        width: 50%;
+        flex: 1 1 50%;
+    }
+
+    body {
+        border: dashed 5px green;
+        border-radius: 80px 80px;
+        text-align: center;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        /*flex: 1 1 auto;*/
+        font-size: 150%;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+    }
+
+    #magam {
+        padding-left: 50px;
+        flex: 1 1 50%;
+    }
+
+    #kepz {
+        flex: 1 1 50%;
+    }
+    #tapasz{
+        flex: 1 1 50%;
+    }
+    .sorkoz {
+        margin-bottom: 30px;
+    }
+
+    #magam,
+    #kepz {
+        border-right: dashed 5px darkorange;
+    }
+
+    #magam,
+    #kepz,
+    .tart,
+    #kep,
+    #tapasz {
+        border-bottom: none;
+        border-top: none;
+    }
+
+    #vege {
+        display: flex;
+        justify-content: space-around;      
+    }
+
+    #harom {
+        flex: 1 1 33%;        
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .tart {
+        margin: 60px 0px 60px 0px;
+    }
+    
+    #kep {
+        flex: 1 1 25%;
+    }
+
+    body {
+        width: 95%;
+    }
+
+    #magam {
+        flex: 1 1 75%;
+    }
+}
