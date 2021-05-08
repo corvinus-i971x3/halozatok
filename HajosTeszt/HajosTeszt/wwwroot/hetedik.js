@@ -1,6 +1,14 @@
 ﻿var kérdések;
 var kerdID = 1;
 
+var hotList = [];           //Az éppen gyakoroltatott kérdések listája 
+var questionsInHotList = 3; //Ez majd 7 lesz, teszteléshez jobb a 3. 
+var displayedQuestion;      //A hotList-ből éppen ez a kérdés van kint
+var numberOfQuestions;      //Kérdések száma a teljes adatbázisban
+var nextQuestion = 1;       //A következő kérdés száma a teljes listában
+
+var timeoutHandler;
+
 window.onload = () => {
     letöltés()    
 }
@@ -20,7 +28,17 @@ fetch('/questions/1')
 function kérdésBetöltés(id) {
     fetch(`/questions/${id}`)
         .then(válaszfeldolgozás)
-        .then(kérdésMegjelenítés);
+        .then(
+            //kérdésMegjelenítés;
+            q => {
+                hotList[destination].question = q;
+                hotList[destination].goodAnswers = 0;
+                console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
+                if (displayedQuestion == undefined && destination == 0) { //!!!!!!!!!!!!!
+                    displayedQuestion = 0;
+                    kérdésMegjelenítés();
+            }
+        );
 }  
 
 function válaszfeldolgozás(válasz) {
@@ -30,6 +48,7 @@ function válaszfeldolgozás(válasz) {
     else {
         return válasz.json()
     }
+    timeoutHandler = setTimeout(előre, 3000);
 }
 
 
@@ -42,6 +61,7 @@ function letöltésBefejeződött(d) {
 }
 
 function kérdésMegjelenítés(kérdés) {
+    kérdés = hotList[displayedQuestion].question;
     console.log(kérdés);
     document.getElementById("kérdés_szöveg").innerText = kérdés.questionText
     document.getElementById("válasz1").innerText = kérdés.answer1
@@ -69,6 +89,22 @@ function kérdésMegjelenítés(kérdés) {
     
 //}
 
+function init() {
+    for (var i = 0; i < questionsInHotList; i++) {
+        let q = {
+            question: {},
+            goodAnswers: 0
+        }
+        hotList[i] = q;
+    }
+
+    //Első kérdések letöltése
+    for (var i = 0; i < questionsInHotList; i++) {
+        kérdésBetöltés(nextQuestion, i);
+        nextQuestion++;
+    }
+}
+
 function back(){
     kerdID--;
     if (kerdID == -1) {
@@ -80,11 +116,14 @@ function back(){
 }
 
 function next() {
+    clearTimeout(timeoutHandler)
     kerdID++;
     //if (kerdID == kérdések.length+1) {
     //    kerdID = 0;
     //}
-    kérdésBetöltés(kerdID)
+    //kérdésBetöltés(kerdID)
+    if (displayedQuestion == questionsInHotList) displayedQuestion = 0;
+    kérdésMegjelenítés()
     visszaSzinezes();
 }
 
