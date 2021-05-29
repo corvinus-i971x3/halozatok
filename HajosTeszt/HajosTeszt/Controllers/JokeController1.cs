@@ -22,14 +22,14 @@ namespace HajosTeszt.Controllers
         }
         // GET api/jokes/5
         [HttpGet("{id}")]
-        public Joke Get(int id)
-        {
-            FunnyDatabaseContext context = new FunnyDatabaseContext();
-            var keresettVicc = (from x in context.Jokes
-                                where x.JokeSk == id
-                                select x).FirstOrDefault();
-            return keresettVicc;
-        }
+        //public Joke Get(int id)
+        //{
+        //    FunnyDatabaseContext context = new FunnyDatabaseContext();
+        //    var keresettVicc = (from x in context.Jokes
+        //                        where x.JokeSk == id
+        //                        select x).FirstOrDefault();
+        //    return keresettVicc;
+        //}
 
         // POST api/<JokeController1>
         [HttpPost]
