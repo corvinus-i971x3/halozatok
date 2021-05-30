@@ -27,6 +27,9 @@
         td {
             text-align: center;
         }
+        p {
+            color: white;
+        }
 
         .login-box {
             position: absolute;
@@ -192,8 +195,9 @@
 <body>
     <div class="login-box">
         <h2>Repülő nyilvántartás</h2>
-
+        
         <table>
+            <caption id="cap">Összesen <> db gép van a listában</caption>
             <tr id="cim">
                 <td>ID</td>
                 <td>Név</td>
@@ -226,10 +230,12 @@
             </a>
             <br /><br /><br />
             <div class="user-box">
-                <input id="Tnev" type="text" name="" required="">
+                <input id="Tnev" type="text" name="" onchange="DelLista(this.value)" required="">
                 <label>ID</label>
+                <p id="ered"></p>
             </div>
-            <a id="delButton" href="#">
+            
+            <a id="delButton"  href="#">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -247,8 +253,19 @@
                 .then(response => response.json())
                 .then(data => kiiras(data)
                 );
-            kiiras(data);
+            //kiiras(data);
+            fetch('bead/count')
+                .then(response => response.json())
+                .then(szam => count(szam)
+                );
         };
+
+        //Lista darabszám kiírás
+        function count(szam) {
+            console.log(szam);
+            var sum = szam;
+            document.getElementById("cap").innerHTML = "Összesen "+szam+" db gép van a listában";
+        }
 
         //Kilistázás
         function kiiras(lista) {
@@ -263,15 +280,7 @@
 
                 newNum.innerText = i + 1
                 newElem.innerText = JSON.stringify(lista[i].nev).slice(1,-1);
-                if (lista[i].meret == 1) {
-                    newMeret.innerText = "Kicsi";
-                }
-                if (lista[i].meret == 2) {
-                    newMeret.innerText = "Közepes";
-                }
-                if (lista[i].meret == 3) {
-                    newMeret.innerText = "Nagy";
-                }
+                newMeret.innerText = Meretezes(lista[i])
 
                 document.getElementById("repNum").appendChild(newNum);
                 document.getElementById("repList").appendChild(newElem);
@@ -282,6 +291,42 @@
             }
 
         }
+
+        function Meretezes(elem) {
+            if (elem.meret == 1) {
+                return "Kicsi";
+            }
+            if (elem.meret == 2) {
+                return "Közepes";
+            }
+            if (elem.meret == 3) {
+                return "Nagy";
+            }
+        }
+
+        function DelLista(id) {
+            console.log(id);
+            var DelId = id;
+            document.getElementById("ered").innerHTML = "";
+            fetch('bead/' + id)
+                .then(response => {
+                    if (!response.ok) {
+                        console.error(`Hibás válasz: ${response.status}`)
+                    }
+                    else {
+                        return response.json();
+                    }
+                    
+                })
+                .then(delSzam => DelKiir(delSzam,DelId)
+                );
+        }
+        function DelKiir(delSzam, DelId) {
+            console.log(delSzam);
+            mer = Meretezes(delSzam)
+            document.getElementById("ered").innerHTML = JSON.stringify(delSzam.nev).slice(1, -1)+" - "+mer
+        }
+
 
         ////Hozzáadás - Nem müködik :(
         //document.getElementById("addButton").addEventListener("click", () => {
@@ -311,21 +356,21 @@
         //});
 
 
-        //Törlés
-        document.getElementById("delButton").addEventListener("click", () => {
+        ////Törlés
+        //document.getElementById("delButton").addEventListener("click", () => {
 
-            //Ezt az objektumot fogjuk átküldeni
-            let data = {
-                nev: document.getElementById("torlesNev").value
-            }
+        //    //Ezt az objektumot fogjuk átküldeni
+        //    let data = {
+        //        nev: document.getElementById("torlesNev").value
+        //    }
 
 
-            fetch('bead/del/' + document.getElementById("Tnev").value,
-                {
-                    method: 'DELETE'
-                }
-            ).then(response => response.text());
-        });
+        //    fetch('bead/del/' + document.getElementById("Tnev").value,
+        //        {
+        //            method: 'DELETE'
+        //        }
+        //    ).then(response => response.text());
+        //});
     </script>
 </body>
 </html>
